@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String        @id @default(uuid())
+  email         String        @unique
+  password_hash String
+  created_at    DateTime      @default(now())
+  calculations  Calculation[]
+
+  @@map("users")
+}
+
+model Calculation {
+  id                    String   @id @default(uuid())
+  user_id               String
+  calculation_name      String?
+  calculation_date      DateTime @default(now())
+  initial_contribution  Float
+  monthly_contribution  Float
+  monthly_rate          Float
+  months_to_reach_goal  Int
+  final_amount          Float
+  total_contributed     Float
+  total_interest        Float
+  
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("calculations")
+}
