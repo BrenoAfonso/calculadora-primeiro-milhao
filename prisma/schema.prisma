@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -16,7 +16,7 @@ model User {
   password_hash String
   created_at    DateTime      @default(now())
   calculations  Calculation[]
-
+  
   @@map("users")
 }
 
@@ -34,6 +34,7 @@ model Calculation {
   total_interest        Float
   
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-
+  
+  @@index([user_id])
   @@map("calculations")
 }
