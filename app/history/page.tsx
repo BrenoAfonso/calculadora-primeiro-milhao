@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Trash2, Calculator, Calendar, TrendingUp, DollarSign } from 'lucide-react';
+import { Trash2, Calculator, Calendar, TrendingUp } from 'lucide-react';
 
 interface Calculation {
   id: string;
@@ -24,12 +24,9 @@ export default function HistoryPage() {
   const [deleting, setDeleting] = useState<string | null>(null);
   const router = useRouter();
 
-  // Buscador ao carregar a página
-  useEffect(() => {
-    fetchCalculations();
-  }, []);
-
-  const fetchCalculations = async () => {
+// Buscar ao carregar a página
+useEffect(() => {
+  const loadCalculations = async () => {
     try {
       const token = localStorage.getItem('token');
       
@@ -45,18 +42,21 @@ export default function HistoryPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Erro ao buscar cálculos');
+        throw new Error('Erro ao carregar cálculos');
       }
 
       const data = await response.json();
-      setCalculations(data.calculations || []);
-    } catch (err) {
-      setError('Erro ao carregar histórico');
-      console.error(err);
+      setCalculations(data.calculations);
+
+    } catch (error) {
+      console.error('Erro ao carregar cálculos:', error);
     } finally {
-      setLoading(false);
+      setLoading(false); 
     }
   };
+
+  loadCalculations();
+}, [router]);
 
   const handleDelete = async (id: string) => {
     if (!confirm('Tem certeza que deseja excluir este cálculo?')) {

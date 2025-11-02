@@ -11,35 +11,41 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setError('');
+  setLoading(true);
 
-    try {
-      const endpoint = isLogin ? '/api/auth/login' : '/api/auth/signup';
-      
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+  try {
+    const endpoint = isLogin ? '/api/auth/login' : '/api/auth/signup';
+    
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Erro ao processar requisição');
-      }
-
-      localStorage.setItem('token', data.token);
-      router.push('/calculator');
-
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    if (!response.ok) {
+      throw new Error(data.error || 'Erro ao processar requisição');
     }
-  };
+
+    localStorage.setItem('token', data.token);
+    router.push('/calculator');
+
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      setError(error.message);
+    } else {
+      setError('Erro ao fazer login');
+    }
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8">

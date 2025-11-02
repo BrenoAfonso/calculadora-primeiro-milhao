@@ -1,6 +1,6 @@
 # Calculadora do Primeiro Milhão
 
-Aplicação Full Stack para simulação de investimentos de longo prazo, utilizando cálculo de juros compostos com aportes mensais, desenvolvida como desafio técnico.
+Aplicação Full Stack para simulação de investimentos de longo prazo, utilizando cálculo de juros compostos com aportes mensais, autenticação JWT e banco de dados PostgreSQL.
 
 ## Stack Técnica
 
@@ -16,13 +16,12 @@ Aplicação Full Stack para simulação de investimentos de longo prazo, utiliza
 - **TypeScript**
 
 ### Banco de Dados
-- **SQLite** (desenvolvimento)
+- **PostgreSQL** (Neon.tech)
 - **Prisma ORM**
 
 ### Autenticação
 - **JWT (jsonwebtoken)**
 - **bcryptjs** (hash de senhas)
-
 ---
 
 ## Pré-requisitos
@@ -73,11 +72,6 @@ Execute as migrations do Prisma:
 npx prisma migrate dev --name init
 ```
 
-Isso irá:
-- Criar o banco de dados SQLite (`prisma/dev.db`)
-- Aplicar todas as migrations
-- Gerar o Prisma Client
-
 ### 5️⃣ Inicie o servidor de desenvolvimento
 ```bash
 npm run dev
@@ -98,7 +92,7 @@ CALCULADORA-PRIMEIRO-MILHO/
 │   │   │   └── page.tsx
 │   │   └── layout.tsx
 │   │
-│   ├── api/                      # API Routes 
+│   ├── api/                      # API Routs 
 │   │   ├── auth/
 │   │   │   ├── login/
 │   │   │   │   └── route.ts
@@ -126,7 +120,7 @@ CALCULADORA-PRIMEIRO-MILHO/
 │
 ├── prisma/
 │   ├── schema.prisma             # Modelo do banco 
-│   └── dev.db                    # Banco SQLite local (não versionado)
+│   └── migrations                
 │
 ├── public/
 │   └── favicon.ico
@@ -166,7 +160,7 @@ CALCULADORA-PRIMEIRO-MILHO/
 ### ✅ Banco de Dados
 - [x] Prisma ORM com snake_case
 - [x] Relação 1:N entre User e Calculation
-- [x] SQLite para desenvolvimento
+- [x] Migração de SQLite → PostgreSQL (Neon.tech) para uso em produção
 
 ---
 
@@ -182,21 +176,6 @@ Onde:
 - **Vt-1** = Valor total acumulado no mês anterior
 - **Am** = Aporte mensal fixo
 - **R** = Taxa de juros mensal (em decimal, ex: 0.8% = 0.008)
-
----
-
-## Testando a Aplicação
-
-### Fluxo de teste completo:
-
-1. Acesse `http://localhost:3000/login`
-2. Crie uma conta nova
-3. Será redirecionado para `/calculator`
-4. Faça uma simulação com os valores sugeridos (ou personalizados)
-5. Salve o cálculo com um nome
-6. Clique em "Ver Histórico" para visualizar
-7. Teste a exclusão de um cálculo
-8. Faça logout e login novamente para verificar persistência
 
 ---
 
@@ -231,7 +210,16 @@ model Calculation {
   @@map("calculations")
 }
 ```
+## Testando a Aplicação
 
+1. Acesse `http://localhost:3000/login`
+2. Crie uma conta nova
+3. Será redirecionado para `/calculator`
+4. Faça uma simulação com os valores sugeridos (ou personalizados)
+5. Salve o cálculo com um nome
+6. Clique em "Ver Histórico" para visualizar
+7. Teste a exclusão de um cálculo
+8. Faça logout e login novamente para verificar persistência
 ---
 
 ## Scripts Disponíveis
@@ -273,12 +261,8 @@ npx prisma migrate dev --name init
 
 ---
 
-> ⚠️ **Nota**: considere migrar de SQLite para PostgreSQL 
-
----
-
 ## Contato 
-LinkedIn: [linkedin.com/in/Brenoafonso](https://linkedin.com/in/Breno-afonso)  
+LinkedIn: [linkedin.com/in/Breno-afonso](https://linkedin.com/in/Breno-afonso)  
 GitHub: [@BrenoAfonso](https://github.com/BrenoAfonso)
 
 ---
