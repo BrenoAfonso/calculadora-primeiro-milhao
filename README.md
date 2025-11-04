@@ -1,5 +1,11 @@
 # Calculadora do Primeiro Milhão
 
+![Next.js](https://img.shields.io/badge/Next.js-14-black.svg)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-316192.svg)
+![Prisma](https://img.shields.io/badge/Prisma-5.6-2D3748.svg)
+![Vercel](https://img.shields.io/badge/Deployed-Vercel-black.svg)
+
 Aplicação Full Stack para simulação de investimentos de longo prazo, utilizando cálculo de juros compostos com aportes mensais, autenticação JWT e banco de dados PostgreSQL.
 
 ## Stack Técnica
